@@ -1,0 +1,67 @@
+body {
+  	background-image: url("../img/back1.jpg");
+    background-repeat:no-repeat;
+    background-size:cover;
+  	font: 13px/20px 'Lucida Grande', Tahoma, Verdana, sans-serif;
+  	color: white;
+  	
+    a:link{
+        color: white;
+    	background-color: transparent;
+    	text-decoration: none;
+	}
+	a:visited {
+    	color: white;
+    	background-color: transparent;
+    	text-decoration: none;
+	}
+	a:hover {
+    	color: white;
+    	background-color: transparent;
+    	text-decoration: none;
+	}
+	a:active {
+    	color: white;
+   	 	background-color: transparent;
+    	text-decoration: none;
+	}
+}
+
+h1,h2,h3{ 
+	font-family: Courier new;
+	font-weight: normal;
+	text-align: center;
+	color:white;
+}
+
+#demo {
+	border-top:2px solid #a3ceda;
+	border-left:2px solid #a3ceda;
+	border-right:2px solid #4f6267;
+	border-bottom:2px solid #4f6267;
+	padding:10px 20px !important;
+	font-size:14px !important;
+	background-color:White;
+	font-weight:bold;
+	color:green;
+	text-decoration: none;
+	font-weight:normal;
+}
+#demo1 {
+ 	display:inline;
+	border-top:1px solid #a3ceda;
+	border-left:2px solid #a3ceda;
+	border-right:2px solid #4f6267;
+	border-bottom:1px solid #4f6267;
+	padding:3px 7px !important;
+	font-size:16px !important;
+	background-color:White;
+	font-weight:bold;
+	color:green;
+	text-decoration: none;
+	font-weight:normal;
+}
+
+.left {
+	text-align:left;
+}

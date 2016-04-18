@@ -1,0 +1,62 @@
+  {"founders": [
+  
+  {
+      "name": "Nicolas Jabbour",
+      "role": "Managing Partner",
+      "cover": "../img/cnj.png",
+      "memory": [{
+        "category": "Fun",
+        "occasion": " Company's yearly dinner",
+        "body": "Discussed football facts, happened to be supporters of the same team. Come on you Gunners !",
+        "author": "KarlSaks"
+      }]
+
+    }, {
+      "name": "Chris Zeller",
+      "role": "Business Development",
+      "cover": "../img/ccz.png",
+      "memory": [{
+        "category": "Work",
+        "occasion": " Company's yearly dinner",
+        "body": "Gave me sincere career advice.",
+        "author": "Karl"
+      }, {
+        "category": "Fun",
+        "occasion": " Daily Office Routines",
+        "body": "Discovered that we both really like to listen to John Mayer's music, we made the whole office listen to his last album (of course volume was low)",
+        "author": "Karl"
+      }]
+    }, {
+      "name": "Hanna AlJaliss",
+      "role": "BPM and Integration VP",
+      "cover": "../img/cha.png",
+      "memory": [{
+        "category": "Fun",
+        "occasion": " Weekly Training Reviews",
+        "body": "The occasion indicates the gravity of the situation, however the conversation with Hanna was always soothing, and a joke or two are always present.",
+        "author": "Karl"
+      }]
+
+    }, {
+      "name": "Ashraf Souleiman",
+      "role": "BPM, Cloud and Mobile VP",
+      "cover": "../img/cas.png",
+      "memory": [{
+        "category": "Fun",
+        "occasion": " Weekly Training Reviews",
+        "body": "The occasion indicates the gravity of the situation, however the conversation with Hanna was always soothing, and a joke or two are always present.",
+        "author": "Karl"
+      }]
+
+    }, {
+      "name": "Olivier Poupeney",
+      "role": "Cloud and Mobile Lead",
+      "cover": "../img/cop.png",
+      "memory": [{
+        "category": "Hope we meet up soon",
+        "occasion": "",
+        "body": "",
+        "author": ""
+      }]
+    }
+    ]}

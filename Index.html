@@ -1,0 +1,51 @@
+<html>
+<head>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"> </script>
+    <script type="text/javascript" src="js/accessUsers.json"> </script>
+    <link rel="stylesheet" type="text/css" href="CSS/style.css">
+    <title>
+    Biggest Tech Company
+    </title>
+</head>
+<body>
+    <div style="text-align:center"><h1 style="font-size:40"> Welcome new hires to CEDRUS CO </h1> 
+  	    
+        <br><br>
+        <h1> This page is still underconstruction, however we are depending on you to make it better </h1>
+        <br><br>
+     
+        <h1> On this page you will get to meet the founders of the company,<br><br> share stories/memories that bind you together,<br><br>and even Chat together
+        <br><br> 
+        <h2> Enter your <br> User & Password </h2>
+        <br>
+        <input type="text" id="user" value="" placeholder=".  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .   "/>
+        <input type="password" id="pass" value="" placeholder=".  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .   "/>
+        <br><br><br>
+        <a id="demo" href="javascript: checkUser()">Submit :)</a>
+    </div>
+    <script>
+    function checkUser() { 
+    var mydata = JSON.parse(data);
+    var username = document.getElementById("user").value.toUpperCase();
+    var password = document.getElementById("pass").value.toUpperCase();
+    var i =0;
+    var count =0;
+for (i=0 ; i < mydata.length ; i++) {  
+    if (username === mydata[i].uname) {
+         if (password === mydata[i].pword) {
+           count++;
+           window.location.href = "partials/meet-me.html";
+         }
+         else  { alert("Sorry, your password is incorrect. Ask for help. ");
+                 count++;
+                  window.location.href = "";
+     }
+    }}
+     if (count == 0) {
+                alert("Sorry, your name is not indicated yet in the CEDRUS TEAM . Ask for help. ");
+            }
+
+}
+    </script>
+</body>
+</html>

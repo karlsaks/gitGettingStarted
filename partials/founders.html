@@ -1,0 +1,76 @@
+<html>
+<head>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"> </script>
+    <script src="../js/app.js"> </script>
+    <script src="../js/routes.js"> </script>
+    <script src="../js/angular-route.js"> </script>
+    <script src="../js/socket.io.js"> </script>
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="../CSS/style.css">
+    <title> 
+    Biggest Tech Company
+    </title> 
+</head>
+<body>
+
+ <!-- Here enclosed between comments is the way I used to access the tweets i have searched for -->
+ <a id="demo1" href="http://localhost:8000/@cedrusco"> Twitter  </a> 
+
+<div ng-repeat="founders in fndr.founders track by $index" ng-controller="PController as PCtrl">
+    <br>
+    <section class="tab" >
+      <div class="nav nav-pills">
+		<h1 style="text-align:left; display:inline;"> Name : {{founders.name}} </h1> <button ng-click="delete()" class="btn btn-danger">-</button><br> 
+ 		    <a id="demo1"  href ng-click="PCtrl.selectTab(1)"> Role  </a> 
+        <a id="demo1"  href ng-click="PCtrl.selectTab(2)">  Memory  </a> 
+        <a id="demo1" href ng-click="PCtrl.selectTab(3)">  Picture  </a> <br>
+        <div ng-show="PCtrl.isSelected(1)">
+         <h3 class="left">{{founders.role}}</h3>
+        </div>
+        <div ng-show="PCtrl.isSelected(2)">
+         <ul>
+           <h3 class="left">Memories</h3>
+             <li ng-repeat="fndrMem in founders.memory track by $index">
+               <blockquote>
+                 <strong>{{fndrMem.category}} Memory shared @ {{fndrMem.occasion}}</strong><br>
+                 {{fndrMem.body}} <br>
+                 --{{fndrMem.author}}
+               </blockquote>
+              </li>
+            </ul>
+            <h4 class="left">Add a Memory</h4>
+             <form name="memoryForm" ng-submit="memoryForm.$valid && cCtrl.addMemory()" novalidate>
+                <blockquote>
+                 <strong>{{cCtrl.foundersMe.category}} Memory shared @ {{cCtrl.foundersMe.occasion}}</strong><br>
+                 {{cCtrl.foundersMe.body}} <br>
+                 --{{cCtrl.foundersMe.author}}
+               </blockquote>
+               
+              <fieldset class="form-group">
+                <select ng-model="cCtrl.foundersMe.category" class="form-control" ng-options="category for category in ['Fun','Work','Hope we meet up soon']" title="Category">
+                  <option value="">Specify the 'Category' of the Memory</option>
+                </select>
+              </fieldset>
+              <fieldset class="form-group">
+                <input ng-model="cCtrl.foundersMe.occasion" class="form-control" placeholder="Specify the Occasion" title="Occasion" required/>
+              </fieldset>
+              <fieldset class="form-group">
+                <input ng-model="cCtrl.foundersMe.body" class="form-control" placeholder="What happened ?!" title="Body" required/>
+              </fieldset>
+                <fieldset class="form-group">
+                <input ng-model="cCtrl.foundersMe.author" class="form-control" placeholder="Enter your name" title="Author" required/>
+              </fieldset>
+              <fieldset class="form-group">
+                <input style="align:left;" type="submit" class="btn btn-primary pull-left" value="Submit Memory" required/>
+              </fieldset>
+             </form>
+        </div>
+        <div ng-show="PCtrl.isSelected(3)">
+          <br><img ng-src="{{founders.cover}}"> 
+        </div>
+      </div>
+	</section>
+    <hr>
+    </div>
+</body>
+</html>
