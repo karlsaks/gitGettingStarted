@@ -15,12 +15,23 @@ app.service('GetTweets', function($http){
   return $http.get('/@cedrusco').then(function(response) {
     return response.data;
   });
+
+  // '/users/' + founder._id
 }
 return {userTweets:userTweets};
+
+// return {
+//   userTweets: function() {
+//     return $http.get('/@cedrusco')
+//       .then(function(response) {
+//         return response.data;
+//       });
+//   }
+// }
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
-app.controller('cedrusController',function($window,$scope,$http,GetUsers,GetTweets) {
+app.controller('cedrusController',function($scope,$http,GetUsers,GetTweets) {
  
 GetUsers.userInfo().then(function(info){
     $scope.fndr = info;
@@ -30,15 +41,18 @@ GetTweets.userTweets().then(function(tweets){
     $scope.twts = tweets;
 });
 
-  this.founders = JSON.parse($window.localStorage.getItem("founders"));
-  this.foundersMe={};
   this.addMemory = function() {
     
           
   };
-  $scope.delete = function() { 
-    console.log("hey");
+
+  $scope.delete = function(founder) {
+    $http.delete('/users/' + founder._id)
+      .then(function(deletedFounder) {
+        console.log('Deleted:', deletedFounder);
+      });
   }
+
 });
 app.controller('PController',function () {
 	this.tab=1;

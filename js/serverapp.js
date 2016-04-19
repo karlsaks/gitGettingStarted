@@ -4,9 +4,35 @@ var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var path = require('path');
 var twit = require('twit') ;
-var mongoose = require('mongoose');
- 
+
+var mongoose = require('mongoose'); 
 mongoose.connect('mongodb://localhost/my_database');
+
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  console.log("connected via mongoose");
+});
+
+var testSchema = mongoose.Schema(
+  {
+    name : String
+  }
+);
+var player = mongoose.model('player', testSchema);
+// player.create({
+//   name: 'Karl'
+// }).then(function(karl) {
+//   console.log(karl);
+// });
+app.get('/players', function(req, res) {
+  player.find()
+  .then(function(players) {
+    res.json(players);
+  });
+});
+
+
 
 app.use(express.static(path.join(__dirname, '../')));
 // 
@@ -65,34 +91,47 @@ var url = 'mongodb://localhost:27017/test';
 //   });
 // };
 
-app.get ('/users', function ( request, response ){
-
-var findUsers = function(db, callback) {
-   var cursor =	db.collection('members').find();
-   cursor.each(function(err, doc) {
-      assert.equal(err, null);
-      if (doc != null) {
-         response.json(doc);
-      } else {
-         callback();
-      }
-   });
-};
-
-MongoClient.connect(url, function(err, db) {
-  assert.equal(null, err);
-  findUsers(db,function() {	
-  	db.close();
-  });
+var FounderSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  role: { type: String, required: true },
+  cover: { type: String, required: true },
+  memory: [
+    {
+      category: { type: String, enum: ['Fun', 'Work', 'Hope we meet up soon'] },
+      occasion: String,
+      body: String,
+      author: String
+    }
+  ]
 });
 
-})
+
+var Founder = mongoose.model('Founder', FounderSchema);
+
+app.get ('/users', function ( request, response ){
+
+  Founder.find()
+    .then(function(founders) {
+      response.json({ founders: founders });
+    })
+
+});
+
+app.delete('/users/:id', function(request, response) {
+// request.params.id
+  Founder.find({"_id" : founder._id})
+    .then(function(founder){
+      founder.remove();
+    })
+
+
+});
 
 
 /*MongoClient.connect(url, function(err, db) {
   assert.equal(null, err);
   	dropRestaurants(db,function() {
-	  insertDocument(db, function() {
+	  insertDocument(db, function() {  
 	    findUsers(db, function() {
 	      	db.close();
 	  	});
@@ -145,7 +184,7 @@ var params = {
       }]	
     }, function(err, result) {
     assert.equal(err, null);
-    console.log("Inserted a document into the restaurants collection.");
+    console.log("Got the tweets");
     callback();
   });
 };
