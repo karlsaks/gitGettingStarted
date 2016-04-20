@@ -5,203 +5,86 @@ var io = require('socket.io')(server);
 var path = require('path');
 var twit = require('twit') ;
 
-var mongoose = require('mongoose'); 
-mongoose.connect('mongodb://localhost/my_database');
-
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {
-  console.log("connected via mongoose");
-});
-
-var testSchema = mongoose.Schema(
-  {
-    name : String
-  }
-);
-var player = mongoose.model('player', testSchema);
-// player.create({
-//   name: 'Karl'
-// }).then(function(karl) {
-//   console.log(karl);
-// });
-app.get('/players', function(req, res) {
-  player.find()
-  .then(function(players) {
-    res.json(players);
-  });
-});
-
-
-
 app.use(express.static(path.join(__dirname, '../')));
-// 
-var MongoClient = require('mongodb').MongoClient;
-var assert = require('assert');
-var ObjectId = require('mongodb').ObjectID;
-var url = 'mongodb://localhost:27017/test';
 
-/*var dropRestaurants = function(db, callback) {
-   db.collection('users').drop( function(err, response) {
-      console.log(response)
-      callback();
-   });
-};*/
+var mongojs = require('mongojs');
+var db = mongojs('my_database',['founders']);
+var bodyParser = require('body-parser');
 
-// var insertDocument = function(db, callback) {
-//    db.collection('restaurants').insertOne( {
-//       "address" : {
-//          "street" : "Karls ",
-//          "zipcode" : "10075",
-//          "building" : "1480",
-//          "coord" : [ -73.9557413, 40.7720266 ]
-//       },
-//       "borough" : "Manhattan",
-//       "cuisine" : "Italian",
-//       "grades" : [
-//          {
-//             "date" : new Date("2014-10-01T00:00:00Z"),
-//             "grade" : "A",
-//             "score" : 11
-//          },
-//          {
-//             "date" : new Date("2014-01-16T00:00:00Z"),
-//             "grade" : "B",
-//             "score" : 17
-//          }
-//       ],
-//       "name" : "Vella",
-//       "restaurant_id" : "41704620"
-//    }
-//    db.collection('users').insertOne({
-//       "name": "Nicolas Jabbour",
-//       "role": "Managing Partner",
-//       "cover": "../img/cnj.png",
-//       "memory": [{
-//         "category": "Fun",
-//         "occasion": " Company's yearly dinner",
-//         "body": "Discussed football facts, happened to be supporters of the same team. Come on you Gunners !",
-//         "author": "Karl"
-//       }]	
+app.get('/users', function (request, response){
+  console.log("Get request from database")
+  db.founders.find(function(err,docs){
+    console.log(docs);
+    response.json(docs);
+  });
+});
 
-//     }, function(err, result) {
-//     assert.equal(err, null);
-//     console.log("Inserted a document into the restaurants collection.");
-//     callback();
+app.delete('/users/:id', function(request,response){
+  var id = request.params.id;
+  console.log(id);
+  db.founders.remove({
+    _id : mongojs.ObjectId(id)}, function(err,doc){
+      response.json(doc);
+  });
+});
+// // WORKING .....
+// app.put('/users/mem/:id', function(request, response){
+//   var id = request.params.id;
+//   console.log(id);
+//   db.founders.findAndModify({query :
+//     {_id : mongojs.ObjectId(id)},
+//     update :{$unset: {memory:""}},
+//     new: true}, function(err,doc){
+//       response.json(doc);
 //   });
-// };
+// });
 
-var FounderSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  role: { type: String, required: true },
-  cover: { type: String, required: true },
-  memory: [
-    {
-      category: { type: String, enum: ['Fun', 'Work', 'Hope we meet up soon'] },
-      occasion: String,
-      body: String,
-      author: String
-    }
-  ]
-});
-
-
-var Founder = mongoose.model('Founder', FounderSchema);
-
-app.get ('/users', function ( request, response ){
-
-  Founder.find()
-    .then(function(founders) {
-      response.json({ founders: founders });
-    })
-
-});
-
-app.delete('/users/:id', function(request, response) {
-// request.params.id
-  Founder.find({"_id" : founder._id})
-    .then(function(founder){
-      founder.remove();
-    })
-
-
-});
-
-
-/*MongoClient.connect(url, function(err, db) {
-  assert.equal(null, err);
-  	dropRestaurants(db,function() {
-	  insertDocument(db, function() {  
-	    findUsers(db, function() {
-	      	db.close();
-	  	});
-	  });
-	});
-});*/
-
-
-
-    ///////////////////////////////////////////////////////////////////////////////////////////////
-app.get('/@cedrusco',function(request,response){    
- // I am setting this URL as a way to access my TWEET Selection from the foundners.html page
-// 	//////////////////////////////////////////////////////////////////////////////////////////////
-
-  var gstr= "@cedrusco";
-  var str ="";
-
-  // Authentication required for twitter API usage
-  var T = new twit ({
-	consumer_key: 'U3d2P6EZS5TLkMird8WZX2jZr',
-	consumer_secret: 'VXMM38xfMT0nK6gUL2yeGQ2fB015G5cdiyRLckUgBphyy2TzIa',
-	access_token: '714935849742438400-SEcXC7zcv8xSHS7or6i3n3eQr00eiHR',
-	access_token_secret: 'c0hYI8m8s1SqaZvK3jTNnaCGUEz9HMO2WyZkzBOUOF0eM'
-});
-  //definintion of parameters of my search 
-var params = {
-	q:"@arsenal",
-	count:10
-};
-  T.get('search/tweets', params,
-	function gotData(err, data) {
-		var tweets = data.statuses ; 
-		// loop used to show the tweets matching our parameters in the console
-		tweets = tweets.map(function(tweet) {
-      return tweet.text;
-    });
-
-    response.json(tweets);
-
-           var insertDocument = function(db, callback) {
-   db.collection('restaurants').insertOne({
-      "name": "Nicasdr",
-      "role": "Managiasdrtner",
-      "cover": "../img/cnj.png",
-      "memory": [{
-        "category": "Fun",
-        "occasion": " Companasdy's yearly dinner",
-        "body": "Discussed fasdasdasdootball facts, happened to be supporters of the same team. Come on you Gunners !",
-        "author": "Karl"
-      }]	
-    }, function(err, result) {
-    assert.equal(err, null);
-    console.log("Got the tweets");
-    callback();
-  });
-};
-MongoClient.connect(url, function(err, db) {
-  assert.equal(null, err);
-  insertDocument(db,function() {	
-  	db.close();
+app.put('/users/mem/:id', function(request, response){
+  var id = request.params.id;
+  console.log(id);
+  db.founders.findAndModify({query :
+    {memory : {$elemMatch: {_id :  mongojs.ObjectId(id)}}},
+    update : 
+    {$unset: {memory:""}},
+    new: true}, function(err,doc){
+      response.json(doc);
   });
 });
-});
-
 
 app.get('/',function(request,response){
-	console.log("client logged in");
-	response.sendFile('index.html', { root: path.join(__dirname, '../') });
-	});
+  console.log("client logged in");
+  response.sendFile('index.html', { root: path.join(__dirname, '../') });
+  });
+
+app.get('/@cedrusco/:inp',function(request,response){ 
+  var inp = request.params.inp;   
+  console.log("tweet name provided" +inp);
+  var gstr= "@cedrusco";
+  var str ="";
+  // Authentication required for twitter API usage
+  var T = new twit ({
+   consumer_key: 'U3d2P6EZS5TLkMird8WZX2jZr',
+   consumer_secret: 'VXMM38xfMT0nK6gUL2yeGQ2fB015G5cdiyRLckUgBphyy2TzIa',
+   access_token: '714935849742438400-SEcXC7zcv8xSHS7or6i3n3eQr00eiHR',
+   access_token_secret: 'c0hYI8m8s1SqaZvK3jTNnaCGUEz9HMO2WyZkzBOUOF0eM'
+  });
+  //definintion of parameters of my search 
+  var parameters = {
+   q:inp,
+   count:10
+  };
+  T.get('search/tweets', parameters,
+    function gotData(err, data) {
+      var tweets = data.statuses ; 
+      // loop used to show the tweets matching our parameters in the console
+      tweets = tweets.map(function(tweet) {
+        return tweet.text;
+      });
+    response.json(tweets);
+  });
 });
+
+
 io.on('connection',function(client) {
 	//console.log('*client connected saying : ');
 	var greet = require('./greet');

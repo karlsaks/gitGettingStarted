@@ -12,11 +12,17 @@
     </title> 
 </head>
 <body>
-<h1 style="font-size:40;text-align:left;" ng-repeat="post in twts track by $index">
+<br>
+<input ng-model="cCtrl.twitterAccnt" style="text-align: center" class="form-control" placeholder="Enter the name of the account you would like to get the tweets of " title="Occasion" required/> 
+<h1> <button class="btn btn-primary" ng-click="cCtrl.getMeTweetsOf()"> Submit </button></h1>
+<div ng-show = "cCtrl.condition">
+<!--- Use NG-TABLE -->
+<h1 style="font-size:40;text-align:left;" ng-repeat="post in cCtrl.twts track by $index">
     <ul type="1">
         <li>{{$index+1}} {{post}}</li>      
     </ul> 
 </h1> 
+</div>
 <script>
 </script>
 </body>

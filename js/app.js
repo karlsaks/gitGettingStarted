@@ -1,60 +1,68 @@
-(function () {
 var app = angular.module ('cedrus',['ngRoute']);
-// SERVICE to get http users ///////////////////////////////////////////////////////////////////
-app.service('GetUsers', function($http){
-  function userInfo() {
-  return $http.get('/users').then(function(response) {
-    return response.data;
-  });
-}
-return {userInfo:userInfo};
-});
 
 app.service('GetTweets', function($http){
   function userTweets() {
   return $http.get('/@cedrusco').then(function(response) {
     return response.data;
   });
-
-  // '/users/' + founder._id
 }
 return {userTweets:userTweets};
 
-// return {
-//   userTweets: function() {
-//     return $http.get('/@cedrusco')
-//       .then(function(response) {
-//         return response.data;
-//       });
-//   }
-// }
 });
 
-////////////////////////////////////////////////////////////////////////////////////////////////
-app.controller('cedrusController',function($scope,$http,GetUsers,GetTweets) {
- 
-GetUsers.userInfo().then(function(info){
-    $scope.fndr = info;
-  });
+app.controller('cedrusController',['$scope', '$http', 'GetTweets', function($scope,$http,GetTweets) {
+this.founders={};
+this.account = " ";
+this.condition = false;
+var store = this;
 
-GetTweets.userTweets().then(function(tweets){
-    $scope.twts = tweets;
-});
+// // If I want to get tweets using the service created
+// GetTweets.userTweets().then(function(tweets){
+//     $scope.twts = tweets;
+// });
 
-  this.addMemory = function() {
-    
-          
+  this.getMeTweetsOf = function(inp){
+    this.condition = true ;
+    inp = this.twitterAccnt;
+    console.log("hey" + inp + this.condition);
+    $http.get('/@cedrusco/'+inp).success(function(data){
+      console.log("Got tweets");
+      store.twts = data;
+    });
   };
 
-  $scope.delete = function(founder) {
-    $http.delete('/users/' + founder._id)
-      .then(function(deletedFounder) {
-        console.log('Deleted:', deletedFounder);
+  this.addMemory = function(userMem) {
+     console.log(hey);
+  };
+
+  $scope.delete = function(id) {
+    $http.delete('/users/'+id)
+      .success(function(response){
+        console.log("deleted founder");
+        refresh();
+      });  
+  };
+
+  $scope.deleteMem = function(id) { 
+    console.log(id);
+    $http.put('/users/mem/'+id)
+      .success(function(response){
+        console.log("deleted memory" + id);
+        refresh();
       });
   }
 
-});
-app.controller('PController',function () {
+  var refresh = function () {
+    $http.get('/users')
+      .success(function(response){
+        console.log(response);
+        $scope.users = response ; 
+      });
+  }
+  refresh();
+}]);
+
+app.controller('PController',['$scope','$http', function($scope,$http) {
 	this.tab=1;
 	this.selectTab = function (tab) {
 		this.tab=tab;
@@ -63,5 +71,6 @@ app.controller('PController',function () {
 	this.isSelected = function (checkTab) { 
 		return this.tab === checkTab;
 	};
-});
-})();
+
+}]);
+

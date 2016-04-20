@@ -12,15 +12,12 @@
     </title> 
 </head>
 <body>
-
- <!-- Here enclosed between comments is the way I used to access the tweets i have searched for -->
- <a id="demo1" href="http://localhost:8000/@cedrusco"> Twitter  </a> 
-
-<div ng-repeat="founders in fndr.founders track by $index" ng-controller="PController as PCtrl">
+<div ng-repeat="founders in users track by $index" ng-controller="PController as PCtrl">
     <br>
-    <section class="tab" >
+    <section class="tab">
       <div class="nav nav-pills">
-		<h1 style="text-align:left; display:inline;"> Name : {{founders.name}} </h1> <button ng-click="delete(founders)" class="btn btn-danger">-</button><br>
+		  <h1 style="text-align:left; display:inline;"> Name : {{founders.name}} </h1> 
+      <button ng-click="delete(founders._id)" class="btn btn-danger">-</button><br>
  		    <a id="demo1"  href ng-click="PCtrl.selectTab(1)"> Role  </a> 
         <a id="demo1"  href ng-click="PCtrl.selectTab(2)">  Memory  </a> 
         <a id="demo1" href ng-click="PCtrl.selectTab(3)">  Picture  </a> <br>
@@ -28,18 +25,20 @@
          <h3 class="left">{{founders.role}}</h3>
         </div>
         <div ng-show="PCtrl.isSelected(2)">
-         <ul>
-           <h3 class="left">Memories</h3>
-             <li ng-repeat="fndrMem in founders.memory track by $index">
-               <blockquote>
-                 <strong>{{fndrMem.category}} Memory shared @ {{fndrMem.occasion}}</strong><br>
-                 {{fndrMem.body}} <br>
-                 --{{fndrMem.author}}
-               </blockquote>
+          <ul>
+            <h3 class="left">Memories</h3>
+              <li ng-repeat="fndrMem in founders.memory track by $index">
+              <blockquote>
+                <strong>{{fndrMem.category}} Memory shared @ {{fndrMem.occasion}}</strong>
+                <button ng-click="deleteMem(fndrMem._id)" class="btn btn-danger">-</button><br> 
+                {{fndrMem.body}} <br>
+                --{{fndrMem.author}}
+              </blockquote>
               </li>
             </ul>
             <h4 class="left">Add a Memory</h4>
-             <form name="memoryForm" ng-submit="memoryForm.$valid && cCtrl.addMemory()" novalidate>
+             <!-- <form name="memoryForm" ng-submit="memoryForm.$valid && cCtrl.addMemory()" novalidate> -->
+              <form name="memoryForm" ng-submit="cCtrl.addMemory(founders)" novalidate>
                 <blockquote>
                  <strong>{{cCtrl.foundersMe.category}} Memory shared @ {{cCtrl.foundersMe.occasion}}</strong><br>
                  {{cCtrl.foundersMe.body}} <br>

@@ -1,9 +1,10 @@
 'use strict';
 
 var mongoose = require('mongoose');
-var founders = require('fs').readFileSync('./founders.json', 'utf8');
-founders = JSON.parse(founders).founders;
-
+var founders = require('fs').readFileSync('./foundersoff.json', 'utf8');
+// founders = JSON.parse(founders).founders;
+founders = JSON.parse(founders);
+// console.log(founders);
 var connection = mongoose.connect('mongodb://localhost/my_database');
 
 var FounderSchema = new mongoose.Schema({
