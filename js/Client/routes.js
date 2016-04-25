@@ -1,5 +1,5 @@
 angular.module('cedrus')
-.config(function($routeProvider){
+.config(['$routeProvider', function($routeProvider){
    $routeProvider.when('/founders',{ 
      templateUrl: '/partials/founders.html',
    })
@@ -11,4 +11,4 @@ angular.module('cedrus')
 })
   .otherwise({redirectTo: '/'});
 
-});
+}]);

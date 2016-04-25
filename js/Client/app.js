@@ -1,6 +1,6 @@
-var app = angular.module ('cedrus',['ngRoute']);
+angular.module ('cedrus',['ngRoute'])
 
-app.service('GetTweets', function($http){
+.service('GetTweets',['$http', function($http){
   function userTweets() {
   return $http.get('/@cedrusco').then(function(response) {
     return response.data;
@@ -8,12 +8,12 @@ app.service('GetTweets', function($http){
 }
 return {userTweets:userTweets};
 
-});
+}])
 
-app.controller('cedrusController',['$scope', '$http', 'GetTweets', function($scope,$http,GetTweets) {
+.controller('cedrusController',['$scope', '$http', 'GetTweets', function($scope,$http,GetTweets) {
 this.founders={};
 this.account = " ";
-this.condition = false;
+this.condition = false; 
 var store = this;
 
 // // If I want to get tweets using the service created
@@ -60,9 +60,9 @@ var store = this;
       });
   }
   refresh();
-}]);
+}])
 
-app.controller('PController',['$scope','$http', function($scope,$http) {
+.controller('PController',['$scope','$http', function($scope,$http) {
 	this.tab=1;
 	this.selectTab = function (tab) {
 		this.tab=tab;
@@ -72,5 +72,5 @@ app.controller('PController',['$scope','$http', function($scope,$http) {
 		return this.tab === checkTab;
 	};
 
-}]);
+}])
 

@@ -5,7 +5,7 @@ var io = require('socket.io')(server);
 var path = require('path');
 var twit = require('twit') ;
 
-app.use(express.static(path.join(__dirname, '../')));
+app.use(express.static(path.join(__dirname, '../../')));
 
 var mongojs = require('mongojs');
 var db = mongojs('my_database',['founders']);
@@ -53,7 +53,7 @@ app.put('/users/mem/:id', function(request, response){
 
 app.get('/',function(request,response){
   console.log("client logged in");
-  response.sendFile('index.html', { root: path.join(__dirname, '../') });
+  response.sendFile('index.html', { root: path.join(__dirname, '../../') });
   });
 
 app.get('/@cedrusco/:inp',function(request,response){ 
